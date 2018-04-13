@@ -1,6 +1,6 @@
 #coding:utf-8
 import requests
-
+from functools import reduce
 
 #活动人数
 pal_num = 2
@@ -19,7 +19,7 @@ def geocoder(place):
     r_geocoder = requests.get(url_geocoder, verify = False)
 
     if r_geocoder.json()['status'] != '1' :
-        print "error:" + r_geocoder.json()['message']
+        print ("error:" + r_geocoder.json()['message'])
         return -1
     else:
         location = str(r_geocoder.json()['geocodes'][0]['location'])
@@ -35,7 +35,7 @@ def distance_time(str_from, str_to):
     r_distance = requests.get(url, verify = False)
 
     if r_distance.json()['status'] != '1' :
-        print  "error:" + r_distance.json()['info']
+        print  ("error:" + r_distance.json()['info'])
     else:
         distance = r_distance.json()['route']['distance']
         duration = r_distance.json()['route']['transits'][0]['duration']
@@ -47,12 +47,12 @@ for i in str_from:
     time_list.append(float(distance_time(i, str_to)[1]))
 
 
-print distance_list 
-print time_list
+print (distance_list) 
+print (time_list)
 distance_total = reduce(lambda x,y:x+y, distance_list)
 time_total = reduce(lambda x,y:x+y, time_list)
-print time_total
-print distance_total
+print (time_total)
+print (distance_total)
 '''
 print "max:" + str(max(distance_list))
 print "min:" + str(min(distance_list))
